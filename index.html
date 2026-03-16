@@ -61,7 +61,7 @@
       const desc = document.getElementById("desc").value;
       todos.push({ title, desc });
 
-      document.querySelector("#todo-list").innerHTML = "";
+      document.getElementById("todo-list").innerHTML = "";
       todos.forEach((todo) => {
         addTodo(todo.title, todo.desc);
       });
