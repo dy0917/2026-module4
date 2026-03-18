@@ -41,7 +41,7 @@
           <div class="card-title"></div>
           <div class="card-text"></div>
           <div>
-            <label for="done">Done</label>
+            <label for="isDoneCheck">Done</label>
             <input type="checkbox" id="isDoneCheck" />
           </div>
         </div>
@@ -84,6 +84,7 @@
       const checkButton = template.querySelector("#isDoneCheck");
       checkButton.addEventListener("click", () => {
         const todoIndex = todos.findIndex((todo) => todo.id == id);
+
         if (todoIndex > -1) {
           todos[todoIndex].isDone = !todos[todoIndex].isDone;
           document.getElementById("todo-list").innerHTML = "";
