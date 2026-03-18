@@ -26,11 +26,11 @@
   <body>
     <form onsubmit="addTodoToList(event)">
       <div>
-        <label for="title"></label>
+        <label for="title">Title: </label>
         <input type="text" id="title" name="title" />
       </div>
       <div>
-        <label for="desc"></label>
+        <label for="desc">Description:</label>
         <input type="text" id="desc" name="desc" />
       </div>
       <button type="submit">Save</button>
@@ -38,11 +38,11 @@
     <template id="card-template">
       <div class="card">
         <div class="card-body">
-          <div class="card-title todoDone"></div>
+          <div class="card-title"></div>
           <div class="card-text"></div>
           <div>
             <label for="done">Done</label>
-            <input type="checkbox" />
+            <input type="checkbox" id="isDoneCheck" />
           </div>
         </div>
       </div>
@@ -50,36 +50,58 @@
     <div id="todo-list"></div>
   </body>
   <script>
-    const todos = [
-      { title: " this is a title1", desc: "this is a desc1" },
-      { title: " this is a title2", desc: "this is a desc2" },
-    ];
+    const todos = [];
 
     function addTodoToList(event) {
       event.preventDefault();
       const title = document.getElementById("title").value;
       const desc = document.getElementById("desc").value;
-      todos.push({ title, desc });
-
+      let id = 0;
+      if (todos.length == 0) {
+        id = 1;
+      } else {
+        const ids = todos.map((todo) => todo.id);
+        const max = Math.max(...ids);
+        id = max + 1;
+      }
+      todos.push({ id, title, desc });
       document.getElementById("todo-list").innerHTML = "";
       todos.forEach((todo) => {
-        addTodo(todo.title, todo.desc);
+        addTodo(todo);
       });
     }
-
-    function addTodo(title, desc) {
+    // display element to html page
+    function addTodo({ id, title, desc, isDone }) {
       // clone the template
       const template = document
         .getElementById("card-template")
         .content.cloneNode(true);
       // populate the template
-      template.querySelector(".card-title").innerText = title;
-      template.querySelector(".card-text").innerText = desc;
+      const titleSection = template.querySelector(".card-title");
+      titleSection.innerText = title;
+      const descSection = template.querySelector(".card-text");
+      descSection.innerText = desc;
+      const checkButton = template.querySelector("#isDoneCheck");
+      checkButton.addEventListener("click", () => {
+        const todoIndex = todos.findIndex((todo) => todo.id == id);
+        if (todoIndex > -1) {
+          todos[todoIndex].isDone = !todos[todoIndex].isDone;
+          document.getElementById("todo-list").innerHTML = "";
+          todos.forEach((todo) => {
+            addTodo(todo);
+          });
+        }
+      });
+      if (isDone) {
+        titleSection.classList.add("todoDone");
+        descSection.classList.add("todoDone");
+        checkButton.checked = true;
+      }
       // include the populated template into the page
       document.querySelector("#todo-list").appendChild(template);
     }
     todos.forEach((todo) => {
-      addTodo(todo.title, todo.desc);
+      addTodo(todo);
     });
   </script>
 </html>
