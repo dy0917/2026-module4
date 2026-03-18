@@ -60,6 +60,7 @@
       if (todos.length == 0) {
         id = 1;
       } else {
+        // find biggest number in todo list, add 1 on top of it as next id
         const ids = todos.map((todo) => todo.id);
         const max = Math.max(...ids);
         id = max + 1;
@@ -82,6 +83,7 @@
       const descSection = template.querySelector(".card-text");
       descSection.innerText = desc;
       const checkButton = template.querySelector("#isDoneCheck");
+      // update todo isdone boolean and rerender to template
       checkButton.addEventListener("click", () => {
         const todoIndex = todos.findIndex((todo) => todo.id == id);
 
@@ -93,6 +95,7 @@
           });
         }
       });
+      // based on isDone show different style on element
       if (isDone) {
         titleSection.classList.add("todoDone");
         descSection.classList.add("todoDone");
