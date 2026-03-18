@@ -85,9 +85,10 @@
       const checkButton = template.querySelector("#isDoneCheck");
       // update todo isdone boolean and rerender to template
       checkButton.addEventListener("click", () => {
+        //find index mean find the index of element with the matching condition
         const todoIndex = todos.findIndex((todo) => todo.id == id);
-
         if (todoIndex > -1) {
+          //use the index to locate the target element in list
           todos[todoIndex].isDone = !todos[todoIndex].isDone;
           document.getElementById("todo-list").innerHTML = "";
           todos.forEach((todo) => {
